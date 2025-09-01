@@ -1,0 +1,101 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/network/api_client.dart';
+import '../../../../core/utils/result.dart';
+import '../../data/datasources/book_remote_datasource.dart';
+import '../../data/repositories/book_repository_impl.dart';
+import '../../domain/entities/book_search_result.dart';
+import '../../domain/repositories/book_repository.dart';
+import '../../domain/usecases/search_books_usecase.dart';
+
+// API Client Provider
+final apiClientProvider = Provider<ApiClient>((ref) {
+  return ApiClient();
+});
+
+// Data Source Provider
+final bookRemoteDataSourceProvider = Provider<BookRemoteDataSource>((ref) {
+  final apiClient = ref.watch(apiClientProvider);
+  return BookRemoteDataSourceImpl(apiClient);
+});
+
+// Repository Provider
+final bookRepositoryProvider = Provider<BookRepository>((ref) {
+  final remoteDataSource = ref.watch(bookRemoteDataSourceProvider);
+  return BookRepositoryImpl(remoteDataSource);
+});
+
+// Use Case Provider
+final searchBooksUsecaseProvider = Provider<SearchBooksUsecase>((ref) {
+  final repository = ref.watch(bookRepositoryProvider);
+  return SearchBooksUsecase(repository);
+});
+
+// Search State Provider
+final bookSearchNotifierProvider = StateNotifierProvider<BookSearchNotifier, AsyncValue<BookSearchResult?>>((ref) {
+  return BookSearchNotifier(ref);
+});
+
+class BookSearchNotifier extends StateNotifier<AsyncValue<BookSearchResult?>> {
+  final Ref _ref;
+
+  BookSearchNotifier(this._ref) : super(const AsyncValue.data(null));
+
+  Future<void> searchBooks({
+    required String query,
+    int startIndex = 0,
+    int maxResults = 10,
+  }) async {
+    state = const AsyncValue.loading();
+
+    try {
+      final usecase = _ref.read(searchBooksUsecaseProvider);
+      final result = await usecase(
+        query: query,
+        startIndex: startIndex,
+        maxResults: maxResults,
+      );
+
+      if (result is Success<BookSearchResult>) {
+        state = AsyncValue.data(result.data);
+      } else if (result is ResultFailure<BookSearchResult>) {
+        state = AsyncValue.error(result.failure, StackTrace.current);
+      }
+    } catch (error, stackTrace) {
+      state = AsyncValue.error(error, stackTrace);
+    }
+  }
+
+  void clearSearch() {
+    state = const AsyncValue.data(null);
+  }
+
+  Future<void> loadMoreBooks() async {
+    final currentState = state.value;
+    if (currentState == null) return;
+
+    final usecase = _ref.read(searchBooksUsecaseProvider);
+    final nextStartIndex = currentState.startIndex + currentState.itemsPerPage;
+
+    try {
+      final result = await usecase(
+        query: currentState.query ?? '',
+        startIndex: nextStartIndex,
+        maxResults: currentState.itemsPerPage,
+      );
+
+      if (result is Success<BookSearchResult>) {
+        final newData = result.data;
+        final updatedBooks = [...currentState.books, ...newData.books];
+        final updatedResult = currentState.copyWith(
+          books: updatedBooks,
+          startIndex: nextStartIndex,
+        );
+        state = AsyncValue.data(updatedResult);
+      } else if (result is ResultFailure<BookSearchResult>) {
+        state = AsyncValue.error(result.failure, StackTrace.current);
+      }
+    } catch (error, stackTrace) {
+      state = AsyncValue.error(error, stackTrace);
+    }
+  }
+}

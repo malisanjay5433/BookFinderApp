@@ -31,6 +31,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # State management
+  flutter_riverpod: ^2.4.9
+
   # HTTP client for making API calls
   dio: ^5.4.0
 
