@@ -151,28 +151,13 @@ flutter test --coverage
 
 ## 🛣️ Roadmap
 
-### Phase 1 (Completed ✅)
+### Completed Features ✅
 - [x] Basic book search functionality
 - [x] Book details screen with animations
 - [x] SQLite local storage
 - [x] Favorites management
 - [x] Clean architecture implementation
 - [x] Riverpod state management
-
-### Phase 2 (In Progress 🚧)
-- [ ] Switch to Open Library API
-- [ ] Pull-to-refresh and shimmer loading
-- [ ] Unit tests for use cases
-- [ ] Search within saved books
-
-### Phase 3 (Planned 📋)
-- [ ] Reading progress tracking
-- [ ] Personal notes and reviews
-- [ ] Book categorization and filtering
-- [ ] Export/import functionality
-- [ ] Reading statistics and analytics
-- [ ] Dark mode support
-- [ ] Offline reading capabilities
 
 ## 🤝 Contributing
 
@@ -182,9 +167,7 @@ flutter test --coverage
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
