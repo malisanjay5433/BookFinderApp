@@ -9,7 +9,7 @@ void main() {
       const data = 'test data';
 
       // Act
-      final result = Success(data);
+      const result = Success(data);
 
       // Assert
       expect(result.data, equals(data));
@@ -19,10 +19,10 @@ void main() {
 
     test('ResultFailure should contain failure and not be successful', () {
       // Arrange
-      final failure = ServerFailure(message: 'Server error');
+      const failure = ServerFailure(message: 'Server error');
 
       // Act
-      final result = ResultFailure(failure);
+      const result = ResultFailure(failure);
 
       // Assert
       expect(result.failure, equals(failure));
@@ -33,7 +33,7 @@ void main() {
     test('when should call success callback for Success', () {
       // Arrange
       const data = 'test data';
-      final result = Success(data);
+      const result = Success(data);
       String? successResult;
 
       // Act
@@ -48,8 +48,8 @@ void main() {
 
     test('when should call failure callback for ResultFailure', () {
       // Arrange
-      final failure = NetworkFailure(message: 'Network error');
-      final result = ResultFailure(failure);
+      const failure = NetworkFailure(message: 'Network error');
+      const result = ResultFailure(failure);
       String? failureResult;
 
       // Act

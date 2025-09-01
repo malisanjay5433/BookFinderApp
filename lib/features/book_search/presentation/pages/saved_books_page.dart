@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/book_search_provider.dart';
 import '../widgets/saved_book_card.dart';
-import '../widgets/loading_widget.dart';
 import '../widgets/error_widget.dart' as custom;
 import '../widgets/shimmer_book_card.dart';
 
