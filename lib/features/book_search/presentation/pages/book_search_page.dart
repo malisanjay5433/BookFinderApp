@@ -5,6 +5,7 @@ import '../widgets/book_search_bar.dart';
 import '../widgets/book_list.dart';
 import '../widgets/loading_widget.dart';
 import '../widgets/error_widget.dart' as custom;
+import 'saved_books_page.dart';
 
 class BookSearchPage extends ConsumerStatefulWidget {
   const BookSearchPage({super.key});
@@ -37,6 +38,19 @@ class _BookSearchPageState extends ConsumerState<BookSearchPage> {
       appBar: AppBar(
         title: const Text('Book Finder'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.favorite),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const SavedBooksPage(),
+                ),
+              );
+            },
+            tooltip: 'View saved books',
+          ),
+        ],
       ),
       body: Column(
         children: [

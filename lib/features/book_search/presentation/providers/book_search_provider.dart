@@ -6,6 +6,7 @@ import '../../data/datasources/book_local_datasource.dart';
 import '../../data/datasources/book_remote_datasource.dart';
 import '../../data/repositories/book_repository_impl.dart';
 import '../../domain/entities/book_search_result.dart';
+import '../../domain/entities/saved_book.dart';
 import '../../domain/repositories/book_repository.dart';
 import '../../domain/usecases/search_books_usecase.dart';
 
@@ -108,6 +109,53 @@ class BookSearchNotifier extends StateNotifier<AsyncValue<BookSearchResult?>> {
       } else if (result is ResultFailure<BookSearchResult>) {
         state = AsyncValue.error(result.failure, StackTrace.current);
       }
+    } catch (error, stackTrace) {
+      state = AsyncValue.error(error, stackTrace);
+    }
+  }
+}
+
+// Saved Books State Provider
+final savedBooksProvider = StateNotifierProvider<SavedBooksNotifier, AsyncValue<List<SavedBook>>>((ref) {
+  return SavedBooksNotifier(ref);
+});
+
+class SavedBooksNotifier extends StateNotifier<AsyncValue<List<SavedBook>>> {
+  final Ref _ref;
+
+  SavedBooksNotifier(this._ref) : super(const AsyncValue.loading());
+
+  Future<void> loadSavedBooks() async {
+    state = const AsyncValue.loading();
+
+    try {
+      final repository = _ref.read(bookRepositoryProvider);
+      final savedBooks = await repository.getAllSavedBooks();
+      state = AsyncValue.data(savedBooks);
+    } catch (error, stackTrace) {
+      state = AsyncValue.error(error, stackTrace);
+    }
+  }
+
+  Future<void> addSavedBook(SavedBook book) async {
+    try {
+      final repository = _ref.read(bookRepositoryProvider);
+      await repository.saveBook(book);
+      
+      // Reload the list to reflect the change
+      await loadSavedBooks();
+    } catch (error, stackTrace) {
+      state = AsyncValue.error(error, stackTrace);
+    }
+  }
+
+  Future<void> removeSavedBook(String bookId) async {
+    try {
+      final repository = _ref.read(bookRepositoryProvider);
+      await repository.deleteBook(bookId);
+      
+      // Reload the list to reflect the change
+      await loadSavedBooks();
     } catch (error, stackTrace) {
       state = AsyncValue.error(error, stackTrace);
     }
