@@ -6,16 +6,21 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:bookfinderapp/main.dart';
 
 void main() {
   testWidgets('Book Finder app smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const BookFinderApp());
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: BookFinderApp(),
+      ),
+    );
 
     // Verify that our app shows the search page
     expect(find.text('Book Finder'), findsOneWidget);
-    expect(find.text('Search for books...'), findsOneWidget);
+    expect(find.text('Search for books'), findsOneWidget);
   });
 }
