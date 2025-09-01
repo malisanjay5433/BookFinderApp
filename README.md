@@ -30,18 +30,9 @@ A Flutter application that allows users to search for books, view detailed infor
 - **Dio** for HTTP requests with proper error handling
 
 ## 📸 Screenshots
-
-### Search Screen
-![Search Screen](screenshots/search_screen.png)
-*Search for books with real-time results*
-
-### Book Details Screen
-![Book Details Screen](screenshots/book_details_screen.png)
-*View comprehensive book information with animated cover*
-
-### My Favorites Screen
-![Favorites Screen](screenshots/favorites_screen.png)
-*Manage your saved books collection*
+<img width="300" height="2622" alt="Simulator Screenshot - iPhone 16 Pro - 2025-09-01 at 18 09 16" src="https://github.com/user-attachments/assets/a9f0e1f3-5e67-4800-be19-2261c9157abf" />
+<img width="300" height="2622" alt="Simulator Screenshot - iPhone 16 Pro - 2025-09-01 at 18 09 47" src="https://github.com/user-attachments/assets/c25701e8-e341-4083-a680-a038ec1ae9c3" />
+<img width="300" height="2622" alt="Simulator Screenshot - iPhone 16 Pro - 2025-09-01 at 18 09 19" src="https://github.com/user-attachments/assets/83657606-2db5-4187-9e98-e42539330265" />
 
 ## 🛠️ Technologies Used
 
