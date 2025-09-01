@@ -1,0 +1,5 @@
+# This file ensures the screenshots directory is tracked by git
+# Add your screenshot files here:
+# - search_screen.png
+# - book_details_screen.png  
+# - favorites_screen.png
