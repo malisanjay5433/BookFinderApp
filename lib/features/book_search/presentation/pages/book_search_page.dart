@@ -102,7 +102,7 @@ class _BookSearchPageState extends ConsumerState<BookSearchPage> {
                   hasMore: result.books.length < result.totalItems,
                 );
               },
-              loading: () => const LoadingWidget(),
+              loading: () => const LoadingWidget(message: 'Searching for books...'),
               error: (error, stack) => custom.ErrorWidget(
                 error: error,
                 onRetry: _performSearch,

@@ -16,7 +16,13 @@ class _SavedBooksPageState extends ConsumerState<SavedBooksPage> {
   @override
   void initState() {
     super.initState();
-    _loadSavedBooks();
+    // Only load if we don't have data yet
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final currentState = ref.read(savedBooksProvider);
+      if (currentState.value?.isEmpty ?? true) {
+        _loadSavedBooks();
+      }
+    });
   }
 
   Future<void> _loadSavedBooks() async {
@@ -72,7 +78,7 @@ class _SavedBooksPageState extends ConsumerState<SavedBooksPage> {
             ),
           );
         },
-        loading: () => const LoadingWidget(),
+        loading: () => const LoadingWidget(message: 'Loading your favorites...'),
         error: (error, stackTrace) => custom.ErrorWidget(
           error: error,
           onRetry: _loadSavedBooks,

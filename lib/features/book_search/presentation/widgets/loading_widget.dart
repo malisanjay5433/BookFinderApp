@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 
 class LoadingWidget extends StatelessWidget {
-  const LoadingWidget({super.key});
+  final String? message;
+  
+  const LoadingWidget({
+    super.key,
+    this.message,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircularProgressIndicator(),
-          SizedBox(height: 16),
+          const CircularProgressIndicator(),
+          const SizedBox(height: 16),
           Text(
-            'Searching for books...',
-            style: TextStyle(
+            message ?? 'Loading...',
+            style: const TextStyle(
               fontSize: 16,
               color: Colors.grey,
             ),

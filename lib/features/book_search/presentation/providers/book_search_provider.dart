@@ -123,10 +123,13 @@ final savedBooksProvider = StateNotifierProvider<SavedBooksNotifier, AsyncValue<
 class SavedBooksNotifier extends StateNotifier<AsyncValue<List<SavedBook>>> {
   final Ref _ref;
 
-  SavedBooksNotifier(this._ref) : super(const AsyncValue.loading());
+  SavedBooksNotifier(this._ref) : super(const AsyncValue.data([]));
 
   Future<void> loadSavedBooks() async {
-    state = const AsyncValue.loading();
+    // Only show loading if we don't have any data
+    if (state.value?.isEmpty ?? true) {
+      state = const AsyncValue.loading();
+    }
 
     try {
       final repository = _ref.read(bookRepositoryProvider);
