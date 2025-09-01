@@ -70,14 +70,15 @@ class _BookDetailsPageState extends ConsumerState<BookDetailsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Book Details'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Colors.deepPurple,
+        foregroundColor: Colors.white,
         actions: [
           IconButton(
+            onPressed: _toggleSaveBook,
             icon: Icon(
               _isBookSaved ? Icons.favorite : Icons.favorite_border,
-              color: _isBookSaved ? Colors.red : null,
+              color: _isBookSaved ? Colors.red : Colors.white,
             ),
-            onPressed: _toggleSaveBook,
             tooltip: _isBookSaved ? 'Remove from favorites' : 'Add to favorites',
           ),
         ],
@@ -85,13 +86,27 @@ class _BookDetailsPageState extends ConsumerState<BookDetailsPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Animated Book Cover
-            AnimatedBookCover(
-              thumbnailUrl: widget.book.thumbnailUrl,
-              title: widget.book.title,
+            // Animated book cover
+            Container(
+              height: 300,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.deepPurple.withOpacity(0.1),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+              child: Center(
+                child: AnimatedBookCover(
+                  thumbnailUrl: widget.book.thumbnailUrl,
+                  title: widget.book.title,
+                ),
+              ),
             ),
-            
-            // Book Details Content
+            // Book details content
             BookDetailsContent(book: widget.book),
           ],
         ),
