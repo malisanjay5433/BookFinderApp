@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/book_search_provider.dart';
 import '../widgets/book_search_bar.dart';
 import '../widgets/book_list.dart';
-import '../widgets/loading_widget.dart';
 import '../widgets/error_widget.dart' as custom;
+import '../widgets/shimmer_book_card.dart';
 import 'saved_books_page.dart';
 
 class BookSearchPage extends ConsumerStatefulWidget {
@@ -27,6 +27,13 @@ class _BookSearchPageState extends ConsumerState<BookSearchPage> {
     final query = _searchController.text.trim();
     if (query.isNotEmpty) {
       ref.read(bookSearchNotifierProvider.notifier).searchBooks(query: query);
+    }
+  }
+
+  Future<void> _refreshSearch() async {
+    final query = _searchController.text.trim();
+    if (query.isNotEmpty) {
+      await ref.read(bookSearchNotifierProvider.notifier).searchBooks(query: query);
     }
   }
 
@@ -94,15 +101,18 @@ class _BookSearchPageState extends ConsumerState<BookSearchPage> {
                     ),
                   );
                 }
-                return BookList(
-                  books: result.books,
-                  onLoadMore: () {
-                    ref.read(bookSearchNotifierProvider.notifier).loadMoreBooks();
-                  },
-                  hasMore: result.books.length < result.totalItems,
+                return RefreshIndicator(
+                  onRefresh: _refreshSearch,
+                  child: BookList(
+                    books: result.books,
+                    onLoadMore: () {
+                      ref.read(bookSearchNotifierProvider.notifier).loadMoreBooks();
+                    },
+                    hasMore: result.books.length < result.totalItems,
+                  ),
                 );
               },
-              loading: () => const LoadingWidget(message: 'Searching for books...'),
+              loading: () => const ShimmerBookList(itemCount: 6),
               error: (error, stack) => custom.ErrorWidget(
                 error: error,
                 onRetry: _performSearch,

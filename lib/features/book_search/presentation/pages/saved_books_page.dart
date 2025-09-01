@@ -4,6 +4,7 @@ import '../providers/book_search_provider.dart';
 import '../widgets/saved_book_card.dart';
 import '../widgets/loading_widget.dart';
 import '../widgets/error_widget.dart' as custom;
+import '../widgets/shimmer_book_card.dart';
 
 class SavedBooksPage extends ConsumerStatefulWidget {
   const SavedBooksPage({super.key});
@@ -78,7 +79,7 @@ class _SavedBooksPageState extends ConsumerState<SavedBooksPage> {
             ),
           );
         },
-        loading: () => const LoadingWidget(message: 'Loading your favorites...'),
+        loading: () => const ShimmerBookList(itemCount: 4),
         error: (error, stackTrace) => custom.ErrorWidget(
           error: error,
           onRetry: _loadSavedBooks,
