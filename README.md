@@ -35,6 +35,8 @@ A Flutter application that allows users to search for books, view detailed infor
 <img width="300" height="2622" alt="Simulator Screenshot - iPhone 16 Pro - 2025-09-01 at 18 09 19" src="https://github.com/user-attachments/assets/83657606-2db5-4187-9e98-e42539330265" />
 <img width="300" height="2622" alt="Simulator Screenshot - iPhone 16 Pro - 2025-09-02 at 00 07 16" src="https://github.com/user-attachments/assets/b59cf6e1-a872-4a1d-8e65-ca9826f08c18" />
 <img width="300" height="2622" alt="Simulator Screenshot - iPhone 16 Pro - 2025-09-02 at 00 07 01" src="https://github.com/user-attachments/assets/4cfb4b0c-bed8-4a83-b823-8be739876ff4" />
+<img width="300" height="2220" alt="Screenshot_20250902_003118" src="https://github.com/user-attachments/assets/d49340f6-bdc0-448b-82d7-d86b02da4bae" />
+<img width="300" height="2220" alt="Screenshot_20250902_003059" src="https://github.com/user-attachments/assets/0b639a28-a631-4b8d-9b86-bfcdc76b6445" />
 
 ## 🛠️ Technologies Used
 
