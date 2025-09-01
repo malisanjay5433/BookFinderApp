@@ -1,12 +1,15 @@
 import '../../../../core/utils/result.dart';
 import '../../domain/entities/book_search_result.dart';
+import '../../domain/entities/saved_book.dart';
 import '../../domain/repositories/book_repository.dart';
+import '../datasources/book_local_datasource.dart';
 import '../datasources/book_remote_datasource.dart';
 
 class BookRepositoryImpl implements BookRepository {
   final BookRemoteDataSource _remoteDataSource;
+  final BookLocalDataSource _localDataSource;
 
-  BookRepositoryImpl(this._remoteDataSource);
+  BookRepositoryImpl(this._remoteDataSource, this._localDataSource);
 
   @override
   Future<Result<BookSearchResult>> searchBooks({
@@ -59,5 +62,30 @@ class BookRepositoryImpl implements BookRepository {
       startIndex: startIndex,
       maxResults: maxResults,
     );
+  }
+
+  @override
+  Future<void> saveBook(SavedBook book) async {
+    await _localDataSource.saveBook(book);
+  }
+
+  @override
+  Future<List<SavedBook>> getAllSavedBooks() async {
+    return await _localDataSource.getAllSavedBooks();
+  }
+
+  @override
+  Future<SavedBook?> getSavedBook(String id) async {
+    return await _localDataSource.getSavedBook(id);
+  }
+
+  @override
+  Future<void> deleteBook(String id) async {
+    await _localDataSource.deleteBook(id);
+  }
+
+  @override
+  Future<bool> isBookSaved(String id) async {
+    return await _localDataSource.isBookSaved(id);
   }
 }

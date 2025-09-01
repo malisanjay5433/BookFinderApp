@@ -1,27 +1,41 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/database/database_helper.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../../core/utils/result.dart';
+import '../../data/datasources/book_local_datasource.dart';
 import '../../data/datasources/book_remote_datasource.dart';
 import '../../data/repositories/book_repository_impl.dart';
 import '../../domain/entities/book_search_result.dart';
 import '../../domain/repositories/book_repository.dart';
 import '../../domain/usecases/search_books_usecase.dart';
 
+// Database Helper Provider
+final databaseHelperProvider = Provider<DatabaseHelper>((ref) {
+  return DatabaseHelper();
+});
+
 // API Client Provider
 final apiClientProvider = Provider<ApiClient>((ref) {
   return ApiClient();
 });
 
-// Data Source Provider
+// Remote Data Source Provider
 final bookRemoteDataSourceProvider = Provider<BookRemoteDataSource>((ref) {
   final apiClient = ref.watch(apiClientProvider);
   return BookRemoteDataSourceImpl(apiClient);
 });
 
+// Local Data Source Provider
+final bookLocalDataSourceProvider = Provider<BookLocalDataSource>((ref) {
+  final databaseHelper = ref.watch(databaseHelperProvider);
+  return BookLocalDataSourceImpl(databaseHelper);
+});
+
 // Repository Provider
 final bookRepositoryProvider = Provider<BookRepository>((ref) {
   final remoteDataSource = ref.watch(bookRemoteDataSourceProvider);
-  return BookRepositoryImpl(remoteDataSource);
+  final localDataSource = ref.watch(bookLocalDataSourceProvider);
+  return BookRepositoryImpl(remoteDataSource, localDataSource);
 });
 
 // Use Case Provider
