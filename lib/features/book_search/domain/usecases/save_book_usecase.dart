@@ -1,3 +1,4 @@
+import '../../../../core/errors/failures.dart';
 import '../../../../core/utils/result.dart';
 import '../entities/book.dart';
 import '../entities/saved_book.dart';
